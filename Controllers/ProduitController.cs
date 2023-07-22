@@ -29,7 +29,7 @@ namespace SteveTenadjangMS2D4.Controllers
             return produit is null ? NotFound() : Ok(produit);
         }
 
-        [HttpGet("{code}")]
+        [HttpGet("Code/{code}")]
         public async Task<ActionResult<Produit>> GetProduitByCode(string code)
         {
             var produit = await _produitService.GetProduitByCodeAsync(code);
@@ -61,12 +61,6 @@ namespace SteveTenadjangMS2D4.Controllers
 
             if (id != produit.ID)
                 return BadRequest();
-
-            if (await _produitService.CodeProduitExiste(produit.Code))
-                return Conflict();
-
-            if (await _produitService.ProduitExiste(produit.ID))
-                return Conflict();
 
             await _produitService.UpdateProductAsync(produit);
 
